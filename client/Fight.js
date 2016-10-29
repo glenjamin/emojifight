@@ -1,3 +1,4 @@
+/* eslint-env browser */
 var React = require('react');
 
 var Warrior = require('./Warrior');
@@ -6,7 +7,18 @@ require('./Fight.css');
 
 var Fight = React.createClass({
   componentDidMount() {
-    var win = Math.random() < 0.1;
+    var win;
+    if (window.localStorage.getItem('emojifight-result') !== null) {
+      win = window.localStorage.getItem('emojifight-result') != "win";
+    } else {
+      win = Math.random() < 0.5;
+    }
+    console.log(win);
+    window.localStorage.setItem('emojifight-result', win ? "win" : "lose");
+
+    this.playFightAnimation(win);
+  },
+  playFightAnimation(win) {
     setTimeout(() =>
       this.setState({ leftEmoji: '💥' }), 500);
     setTimeout(() =>
@@ -22,7 +34,7 @@ var Fight = React.createClass({
     }, 2000);
   },
   componentWillUnmount() {
-    delete window.replayFight;//eslint-disable-line
+    delete window.replayFight;
   },
   getInitialState() {
     return {
@@ -32,10 +44,7 @@ var Fight = React.createClass({
     };
   },
   render() {
-    window.replayFight = () => {//eslint-disable-line
-      this.setState(this.getInitialState());
-      this.componentDidMount();
-    };
+    window.fightComponent = this;
     var {cpu} = this.props;
     return (
       <div>
@@ -61,7 +70,7 @@ var Fight = React.createClass({
         </div>
         <div className="Fight--summary">
           {this.state.win === true &&
-            <p>Congratulations, You won {this.props.stake} credits!</p>}
+            <p>You won {this.props.stake} credits!</p>}
           {this.state.win === false &&
             <p>You lost {this.props.stake} credits!</p>}
           {this.state.win !== null &&

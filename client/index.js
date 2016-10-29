@@ -1,15 +1,16 @@
 /* eslint-env browser */
 
 if (window.location.search.match(/hot/)) {
-  require('webpack/hot/dev-server');
+  require('webpack-hot-middleware/client');
 }
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var App = require('./App');
 
 require('./page.css');
-window.app = React.render(
+window.app = ReactDOM.render(
   <App />,
   document.getElementById('root')
 );

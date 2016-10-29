@@ -1,4 +1,12 @@
 {
-    "stage": 1,
-    "optional": "runtime"
+  "compact": true,
+  "presets": ["react"],
+  "plugins": [
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    }
+  }
 }
