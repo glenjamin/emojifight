@@ -1,0 +1,14 @@
+.App--header {
+    font-weight: normal;
+    text-align: center;
+}
+
+.App--credits {
+    text-align: center;
+}
+
+.App--footer {
+    padding-top: 4rem;
+    font-size: 0.8rem;
+    text-align: center;
+}
