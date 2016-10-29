@@ -1,24 +1,26 @@
 {
-  "name": "magic-of-hot-code-example",
+  "name": "emojifight",
   "version": "1.0.0",
-  "description": "Demo of magic",
+  "description": "Hot Module Reloading demo application",
   "author": "Glen Mailer <glenjamin@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "babel-core": "^5.1.11",
-    "babel-loader": "^5.0.0",
-    "babel-runtime": "^5.2.17",
-    "css-loader": "^0.12.0",
-    "react-hot-loader": "^1.2.2",
-    "style-loader": "^0.12.2",
-    "webpack": "^1.7.2",
-    "webpack-dev-server": "^1.7.0",
-    "classnames": "^2.1.1",
-    "react": "^0.13.0"
+  "scripts": {
+    "lint": "eslint ."
   },
-  "devDependencies": {
-    "babel-eslint": "^3.1.1",
-    "eslint": "^0.21.0",
-    "eslint-plugin-react": "^2.2.0"
-  }
+  "dependencies": {
+    "babel-core": "^6.18.0",
+    "babel-loader": "^6.2.7",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "css-loader": "^0.25.0",
+    "eslint": "^3.9.0",
+    "eslint-plugin-react": "^6.4.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "style-loader": "^0.13.1",
+    "webpack": "2.1.0-beta.25",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.1"
+  },
+  "devDependencies": {}
 }
