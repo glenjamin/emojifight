@@ -1,0 +1,33 @@
+version: 2.1
+
+workflows:
+  flow:
+    jobs:
+      - test
+
+jobs:
+  test:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run: pwd
+
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+
+      - run: npm run lint
+
+      - run:
+          command: npm test
+          when: always
