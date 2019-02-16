@@ -29,13 +29,13 @@ orbs:
     commands:
       check:
         description: |
-          Sanity check to make sure you can deploy a container image.
+          Sanity check to make sure you can push a container image.
 
             * check that $DOCKER_LOGIN and $DOCKER_PASSWORD environment variables are set
             * run docker login to ensure that you can push the built image
         steps:
           - run:
-              name: Check Environment Variables
+              name: kaniko-publish: Check Environment Variables
               command: |
                 if [[ -z "${DOCKER_LOGIN}" ]]; then
                   echo "DOCKER_LOGIN is not set, will not be able to push image."
@@ -47,9 +47,9 @@ orbs:
                   exit 1
                 fi
           - run:
-              name: Simulate Docker Login
+              name: kaniko-publish: Simulate Docker Login
               command: |
-                auth=$(echo "${DOCKER_LOGIN}:${DOCKER_PASSWORD}" | base64)
+                auth=$(printf "${DOCKER_LOGIN}:${DOCKER_PASSWORD}" | base64)
                 mkdir -p /kaniko/.docker
                 cat \<< JSON > /kaniko/.docker/config.json
                 {
@@ -61,11 +61,12 @@ orbs:
                 }
                 JSON
 
-      build_and_deploy:
-        description: Builds, tags and deploys a container image
+      build_and_push:
+        description: Builds, tags and pushes a container image
         steps:
           - run:
-              /kaniko/executor --destination ${DOCKER_LOGIN}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
+              name: kaniko-publish: build and push container
+              command: /kaniko/executor --destination ${DOCKER_LOGIN}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
 
     jobs:
       publish:
@@ -73,7 +74,7 @@ orbs:
         steps:
           - checkout
           - check
-          - build_and_deploy
+          - build_and_push
 
 jobs:
   test:
