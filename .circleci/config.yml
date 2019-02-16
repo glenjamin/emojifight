@@ -50,6 +50,7 @@ orbs:
               name: Simulate Docker Login
               command: |
                 auth=$(echo "${DOCKER_LOGIN}:${DOCKER_PASSWORD}" | base64)
+                mkdir -p /kaniko/.docker
                 cat \<< JSON > /kaniko/.docker/config.json
                 {"auths": {"": {"auth": "${auth}"}}}
                 JSON
