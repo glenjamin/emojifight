@@ -7,13 +7,19 @@ workflows:
       - kaniko-publish/publish:
           requires:
             - test
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
 
 orbs:
   kaniko-publish:
+    description: |
+      Build and publish container images to container registries *without* docker
+
+      Under the hood this uses Google's Kaniko project, but aims to provide the
+      same interface as the circleci/docker-publish orb
+
     executors:
       kaniko-debug:
         docker:
