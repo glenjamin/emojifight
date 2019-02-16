@@ -23,7 +23,7 @@ orbs:
     executors:
       kaniko-debug:
         docker:
-          - image: gcr.io/kaniko-project/executor:debug
+          - image: glenathan/kaniko-publish-orb:fbf39d9b032c969fc1aed12d4d51362f787f54c4
         working_directory: /workspace
 
     commands:
