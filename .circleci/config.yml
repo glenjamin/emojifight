@@ -4,7 +4,7 @@ workflows:
   flow:
     jobs:
       - test
-      - docker-publish/publish:
+      - kaniko-publish/publish:
           requires:
             - test
           filters:
@@ -13,7 +13,54 @@ workflows:
                 - master
 
 orbs:
-  docker-publish: circleci/docker-publish@0.1.4
+  kaniko-publish:
+    executors:
+      kaniko-debug:
+        docker:
+          - image: gcr.io/kaniko-project/executor:debug
+        working_directory: /workspace
+
+    commands:
+      check:
+        description: |
+          Sanity check to make sure you can deploy a container image.
+
+            * check that $DOCKER_LOGIN and $DOCKER_PASSWORD environment variables are set
+            * run docker login to ensure that you can push the built image
+        steps:
+          - run:
+              name: Check Environment Variables
+              command: |
+                if [[ -z "${DOCKER_LOGIN}" ]]; then
+                  echo "DOCKER_LOGIN is not set, will not be able to push image."
+                  exit 1
+                fi
+
+                if [[ -z "${DOCKER_PASSWORD}" ]]; then
+                  echo "DOCKER_PASSWORD is not set, will not be able to push image."
+                  exit 1
+                fi
+          - run:
+              name: Simulate Docker Login
+              command: |
+                auth=$(echo "${DOCKER_LOGIN}:${DOCKER_PASSWORD}" | base64)
+                cat \<< JSON > /kaniko/.docker/config.json
+                {"auths": {"": {"auth": "${auth}"}}}
+                JSON
+
+      build_and_deploy:
+        description: Builds, tags and deploys a container image
+        steps:
+          - run:
+              /kaniko/executor --destination ${DOCKER_LOGIN}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
+
+    jobs:
+      publish:
+        executor: kaniko-debug
+        steps:
+          - checkout
+          - check
+          - build_and_deploy
 
 jobs:
   test:
