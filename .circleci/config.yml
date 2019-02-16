@@ -13,7 +13,7 @@ workflows:
           #       - master
 
 orbs:
-  kaniko-publish: glenjamin/kaniko-publish@dev:030ed71
+  kaniko-publish: glenjamin/kaniko-publish@0.0.2
 
 jobs:
   test:
