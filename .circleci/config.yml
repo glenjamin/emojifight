@@ -4,16 +4,16 @@ workflows:
   flow:
     jobs:
       - test
-      - kaniko-publish/publish:
+      - docker-publish/publish:
           requires:
             - test
-          # filters:
-          #   branches:
-          #     only:
-          #       - master
+          filters:
+            branches:
+              only:
+                - master
 
 orbs:
-  kaniko-publish: glenjamin/kaniko-publish@0.0.2
+  docker-publish: glenjamin/kaniko-publish@0.0.2
 
 jobs:
   test:
