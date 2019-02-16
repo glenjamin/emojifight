@@ -6,6 +6,10 @@ workflows:
       - test
       - docker-publish/publish:
           deploy: false
+          requires: test
+          filters:
+            branches:
+              only: master
 
 orbs:
   docker-publish: circleci/docker-publish@0.1.4
