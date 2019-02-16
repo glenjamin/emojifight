@@ -4,6 +4,11 @@ workflows:
   flow:
     jobs:
       - test
+      - docker-publish/publish:
+          deploy: false
+
+orbs:
+  docker-publish: circleci/docker-publish@0.1.4
 
 jobs:
   test:
