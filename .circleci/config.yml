@@ -35,7 +35,7 @@ orbs:
             * run docker login to ensure that you can push the built image
         steps:
           - run:
-              name: kaniko-publish: Check Environment Variables
+              name: "kaniko-publish: Check Environment Variables"
               command: |
                 if [[ -z "${DOCKER_LOGIN}" ]]; then
                   echo "DOCKER_LOGIN is not set, will not be able to push image."
@@ -47,7 +47,7 @@ orbs:
                   exit 1
                 fi
           - run:
-              name: kaniko-publish: Simulate Docker Login
+              name: "kaniko-publish: Simulate Docker Login"
               command: |
                 auth=$(printf "${DOCKER_LOGIN}:${DOCKER_PASSWORD}" | base64)
                 mkdir -p /kaniko/.docker
@@ -65,7 +65,7 @@ orbs:
         description: Builds, tags and pushes a container image
         steps:
           - run:
-              name: kaniko-publish: build and push container
+              name: "kaniko-publish: build and push container"
               command: /kaniko/executor --destination ${DOCKER_LOGIN}/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
 
     jobs:
