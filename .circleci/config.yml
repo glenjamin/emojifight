@@ -5,7 +5,6 @@ workflows:
     jobs:
       - test
       - docker-publish/publish:
-          deploy: false
           requires:
             - test
           filters:
