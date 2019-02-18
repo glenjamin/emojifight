@@ -13,7 +13,7 @@ workflows:
                 - master
 
 orbs:
-  docker-publish: circleci/docker-publish@0.1.4
+  docker-publish: glenjamin/kaniko-publish@0.0.2
 
 jobs:
   test:
